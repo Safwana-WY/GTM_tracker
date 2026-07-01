@@ -1,6 +1,7 @@
-// Minimal schema — no models needed since the app uses $queryRaw/$executeRaw
-// against the tables created by schema.sql. This file just tells Prisma
-// Client how to connect and generate itself.
+// The app queries these tables via $queryRawUnsafe/$executeRawUnsafe (see lib/db.js),
+// not through Prisma's typed model API — but Prisma refuses to generate a client
+// if the schema has zero models, so these mirror the tables created by schema.sql.
+// Keep this in sync with schema.sql if you add/change columns.
 
 generator client {
   provider = "prisma-client-js"
@@ -9,4 +10,37 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Release {
+  id         Int      @id @default(autoincrement())
+  name       String
+  tier       Int      @db.SmallInt
+  status     String   @default("open")
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("releases")
+}
+
+model ItemStatus {
+  id         Int      @id @default(autoincrement())
+  release_id Int
+  item_key   String
+  status     String?
+  updated_at DateTime @default(now())
+
+  @@unique([release_id, item_key])
+  @@map("item_status")
+}
+
+model CustomTask {
+  id         Int      @id @default(autoincrement())
+  release_id Int
+  text       String
+  owner      String?
+  status     String?
+  created_at DateTime @default(now())
+
+  @@map("custom_tasks")
 }
