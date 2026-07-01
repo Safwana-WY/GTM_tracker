@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { TIERS } from '../lib/checklistTemplate';
 
+const TIER_LABELS = { 1: 'Major', 2: 'Minor', 3: 'Patch' };
+
 function pct(done, total) {
   return total ? Math.round((done / total) * 100) : 0;
 }
@@ -14,6 +16,11 @@ export default function Home() {
   const [taskText, setTaskText] = useState('');
   const [taskOwner, setTaskOwner] = useState('');
   const [loading, setLoading] = useState(false);
+  const [tierFilter, setTierFilter] = useState('all'); // 'all' | '1' | '2' | '3'
+
+  const visibleReleases = tierFilter === 'all'
+    ? releases
+    : releases.filter(r => String(r.tier) === tierFilter);
 
   const loadReleases = useCallback(async () => {
     const res = await fetch('/api/releases');
@@ -162,8 +169,19 @@ export default function Home() {
         </form>
 
         <div className="release-list-heading">Releases</div>
+        <div className="tier-filter">
+          {['all', '1', '2', '3'].map(f => (
+            <button
+              key={f}
+              className={'filter-pill' + (tierFilter === f ? ' active t' + f : '')}
+              onClick={() => setTierFilter(f)}
+            >
+              {f === 'all' ? 'All' : TIER_LABELS[f]}
+            </button>
+          ))}
+        </div>
         <div className="release-list">
-          {releases.map(r => (
+          {visibleReleases.map(r => (
             <div
               key={r.id}
               className={'release-item' + (r.id === selectedId ? ' active' : '') + (r.status === 'shipped' ? ' shipped' : '')}
@@ -172,7 +190,10 @@ export default function Home() {
               <span className={'tier-dot t' + r.tier}></span>
               <div className="release-item-body">
                 <div className="release-name">{r.name}</div>
-                <div className="release-sub">Tier {r.tier} {r.status === 'shipped' ? '· shipped' : ''}</div>
+                <div className="release-sub">
+                  <span className={'tier-badge t' + r.tier}>{TIER_LABELS[r.tier]}</span>
+                  {r.status === 'shipped' ? ' · shipped' : ''}
+                </div>
               </div>
               <button
                 className="release-delete-btn"
@@ -181,6 +202,9 @@ export default function Home() {
               >&times;</button>
             </div>
           ))}
+          {visibleReleases.length === 0 && releases.length > 0 && (
+            <div className="empty-note">No {tierFilter !== 'all' ? TIER_LABELS[tierFilter].toLowerCase() : ''} releases match this filter.</div>
+          )}
           {releases.length === 0 && <div className="empty-note">No releases yet &mdash; add one above.</div>}
         </div>
       </aside>
