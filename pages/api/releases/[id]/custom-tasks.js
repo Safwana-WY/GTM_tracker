@@ -1,7 +1,7 @@
 import { query } from '../../../../lib/db';
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  const id = Number(req.query.id);
 
   if (req.method === 'POST') {
     const { text, owner } = req.body || {};
@@ -20,13 +20,13 @@ export default async function handler(req, res) {
     if (!taskId) return res.status(400).json({ error: 'taskId is required' });
     await query(
       `UPDATE custom_tasks SET status = $1 WHERE id = $2 AND release_id = $3`,
-      [status, taskId, id]
+      [status, Number(taskId), id]
     );
     return res.status(200).json({ ok: true });
   }
 
   if (req.method === 'DELETE') {
-    const { taskId } = req.query;
+    const taskId = Number(req.query.taskId);
     await query(`DELETE FROM custom_tasks WHERE id = $1 AND release_id = $2`, [taskId, id]);
     return res.status(204).end();
   }

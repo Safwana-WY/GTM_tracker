@@ -1,7 +1,7 @@
 import { query } from '../../../lib/db';
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  const id = Number(req.query.id);
 
   if (req.method === 'GET') {
     const releaseRes = await query(`SELECT * FROM releases WHERE id = $1`, [id]);
