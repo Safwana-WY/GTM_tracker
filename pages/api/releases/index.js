@@ -1,12 +1,12 @@
-import { sql } from '@vercel/postgres';
+import { query } from '../../../lib/db';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
-    const { rows } = await sql`
-      SELECT id, name, tier, status, created_at, updated_at
-      FROM releases
-      ORDER BY created_at DESC
-    `;
+    const { rows } = await query(
+      `SELECT id, name, tier, status, created_at, updated_at
+       FROM releases
+       ORDER BY created_at DESC`
+    );
     return res.status(200).json(rows);
   }
 
@@ -15,11 +15,12 @@ export default async function handler(req, res) {
     if (!name || !tier) {
       return res.status(400).json({ error: 'name and tier are required' });
     }
-    const { rows } = await sql`
-      INSERT INTO releases (name, tier)
-      VALUES (${name}, ${tier})
-      RETURNING id, name, tier, status, created_at, updated_at
-    `;
+    const { rows } = await query(
+      `INSERT INTO releases (name, tier)
+       VALUES ($1, $2)
+       RETURNING id, name, tier, status, created_at, updated_at`,
+      [name, tier]
+    );
     return res.status(201).json(rows[0]);
   }
 

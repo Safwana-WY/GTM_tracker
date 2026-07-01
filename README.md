@@ -19,9 +19,9 @@ A shared, database-backed version of the GTM Playbook checklist (`WebYes_GTM_Pla
    git push -u origin main
    ```
 2. **Import the repo in Vercel** (vercel.com → Add New → Project → import the repo). Framework preset should auto-detect as Next.js.
-3. **Add a Postgres database**: in the Vercel project → Storage tab → Create Database → Postgres. This automatically injects the `POSTGRES_URL*` environment variables into your project — you don't need to copy/paste them.
-4. **Run the schema once** against that database: Storage tab → your database → Query, paste the contents of `schema.sql`, run it. (Or connect with `psql` using the connection string shown in the Storage tab.)
-5. **Deploy.** Vercel will build and give you a live URL (e.g. `webyes-gtm-tracker.vercel.app`). Share that link with Melwyn, Sidharth, Anjaly, and Naseem.
+3. **Add a database**: in the Vercel project → Storage tab → Create Database → **Prisma Postgres** (or plain Postgres, if offered). This automatically injects a `DATABASE_URL` environment variable into your project — you don't need to copy/paste it.
+4. **Run the schema once** against that database: Storage tab → your database → Query (or Studio), paste the contents of `schema.sql`, run it. (Or connect with `psql`/any Postgres client using the connection string shown in the Storage tab.)
+5. **Redeploy.** Go to Deployments → latest deployment → the three-dot menu → Redeploy, so the app picks up the new `DATABASE_URL`. You'll get a live URL (e.g. `gtm-tracker.vercel.app`). Share that link with Melwyn, Sidharth, Anjaly, and Naseem.
 
 No login system is built in yet — anyone with the link can edit anything. That's fine for a 5-person team on a private link; say the word if you want basic password protection added later (Vercel supports this natively via a project setting, no code change needed).
 
@@ -31,7 +31,7 @@ No login system is built in yet — anyone with the link can edit anything. That
 npm install
 npm run dev
 ```
-You'll need a `.env.local` with the `POSTGRES_URL*` variables (copy from `.env.example` and fill in real values from Vercel's Storage tab, or point at any local Postgres instance and run `schema.sql` against it).
+You'll need a `.env.local` with `DATABASE_URL` set (copy from `.env.example` and fill in the real value from Vercel's Storage tab, or point at any local Postgres instance and run `schema.sql` against it).
 
 ## Updating the checklist template later
 
