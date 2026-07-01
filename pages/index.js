@@ -103,6 +103,16 @@ export default function Home() {
     loadReleases();
   }
 
+  async function deleteRelease(id, name) {
+    if (!confirm(`Delete "${name}"? This removes its checklist progress and custom tasks permanently.`)) return;
+    await fetch(`/api/releases/${id}`, { method: 'DELETE' });
+    if (selectedId === id) {
+      setSelectedId(null);
+      setDetail(null);
+    }
+    await loadReleases();
+  }
+
   async function markShipped() {
     const nextStatus = detail.release.status === 'shipped' ? 'open' : 'shipped';
     setDetail(d => ({ ...d, release: { ...d.release, status: nextStatus } }));
@@ -151,6 +161,7 @@ export default function Home() {
           <button type="submit">+ Add release</button>
         </form>
 
+        <div className="release-list-heading">Releases</div>
         <div className="release-list">
           {releases.map(r => (
             <div
@@ -163,6 +174,11 @@ export default function Home() {
                 <div className="release-name">{r.name}</div>
                 <div className="release-sub">Tier {r.tier} {r.status === 'shipped' ? '· shipped' : ''}</div>
               </div>
+              <button
+                className="release-delete-btn"
+                title="Delete release"
+                onClick={(e) => { e.stopPropagation(); deleteRelease(r.id, r.name); }}
+              >&times;</button>
             </div>
           ))}
           {releases.length === 0 && <div className="empty-note">No releases yet &mdash; add one above.</div>}
