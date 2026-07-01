@@ -64,8 +64,8 @@ html,body{
 .tier-dot.t2{background:var(--tier2);}
 .tier-dot.t3{background:var(--tier3);}
 .release-item-body{flex:1; min-width:0;}
-.release-name{font-size:13px; font-weight:600;}
-.release-sub{font-size:11px; color:var(--sub);}
+.release-name{font-size:13px; font-weight:600; margin-bottom:6px;}
+.release-sub{font-size:11px; color:var(--sub); display:flex; align-items:center; gap:6px;}
 .release-delete-btn{
   border:none; background:transparent; color:#b03a3a; font-size:16px; line-height:1;
   cursor:pointer; padding:2px 6px; flex-shrink:0; border-radius:4px; opacity:0;
