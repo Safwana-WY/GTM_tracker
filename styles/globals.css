@@ -1,7 +1,7 @@
 :root{
   --ink:#1a1a1a; --sub:#5a5a5a; --line:#e2e2e2; --bg:#fafafa;
-  --tier1:#c0392b; --tier2:#b8860b; --tier3:#4a6a4a;
-  --tier1-bg:#fdecea; --tier2-bg:#fdf3dc; --tier3-bg:#eaf1ea;
+  --tier1:#c0392b; --tier2:#b8860b; --tier3:#4a6a4a; --tier4:#5b3fa0;
+  --tier1-bg:#fdecea; --tier2-bg:#fdf3dc; --tier3-bg:#eaf1ea; --tier4-bg:#f1ecfa;
   --accent:#2c3e50;
 }
 *{box-sizing:border-box;}
@@ -43,7 +43,8 @@ html,body{
 .filter-pill.active.t1{background:var(--tier1);}
 .filter-pill.active.t2{background:var(--tier2);}
 .filter-pill.active.t3{background:var(--tier3);}
-.filter-pill.active:not(.t1):not(.t2):not(.t3){background:var(--accent);}
+.filter-pill.active.t4{background:var(--tier4);}
+.filter-pill.active:not(.t1):not(.t2):not(.t3):not(.t4){background:var(--accent);}
 .tier-badge{
   display:inline-block; font-size:10px; font-weight:700; padding:1px 7px; border-radius:8px;
   color:#fff; text-transform:uppercase; letter-spacing:.02em; margin-right:4px;
@@ -51,6 +52,7 @@ html,body{
 .tier-badge.t1{background:var(--tier1);}
 .tier-badge.t2{background:var(--tier2);}
 .tier-badge.t3{background:var(--tier3);}
+.tier-badge.t4{background:var(--tier4);}
 .release-list{display:flex; flex-direction:column; gap:6px;}
 .release-item{
   display:flex; gap:8px; align-items:center; padding:8px 10px; border-radius:8px; cursor:pointer;
@@ -63,6 +65,7 @@ html,body{
 .tier-dot.t1{background:var(--tier1);}
 .tier-dot.t2{background:var(--tier2);}
 .tier-dot.t3{background:var(--tier3);}
+.tier-dot.t4{background:var(--tier4);}
 .release-item-body{flex:1; min-width:0;}
 .release-name{font-size:13px; font-weight:600; margin-bottom:6px;}
 .release-sub{font-size:11px; color:var(--sub); display:flex; align-items:center; gap:6px;}
@@ -90,6 +93,7 @@ html,body{
 .tier-banner.t1{background:var(--tier1-bg); color:#7a281f;}
 .tier-banner.t2{background:var(--tier2-bg); color:#7a5c0d;}
 .tier-banner.t3{background:var(--tier3-bg); color:#2f4a2f;}
+.tier-banner.t4{background:var(--tier4-bg); color:#3d2a6b;}
 .tier-banner b{display:block; font-size:14px; margin-bottom:2px;}
 
 .progress-row{display:flex; align-items:center; gap:12px; margin:20px 0 24px;}
@@ -134,6 +138,7 @@ html,body{
 .t1 .when-tag{background:var(--tier1);}
 .t2 .when-tag{background:var(--tier2);}
 .t3 .when-tag{background:var(--tier3);}
+.t4 .when-tag{background:var(--tier4);}
 
 .custom-tag{
   display:inline-block; background:#fdf0e0; color:#8a5a1c;

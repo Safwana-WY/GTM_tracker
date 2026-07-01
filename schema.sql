@@ -4,7 +4,7 @@
 CREATE TABLE IF NOT EXISTS releases (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
-  tier SMALLINT NOT NULL CHECK (tier IN (1,2,3)),
+  tier SMALLINT NOT NULL CHECK (tier IN (1,2,3,4)), -- 4 = New Product Launch
   status TEXT NOT NULL DEFAULT 'open' CHECK (status IN ('open','shipped','archived')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()

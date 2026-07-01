@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { TIERS } from '../lib/checklistTemplate';
 
-const TIER_LABELS = { 1: 'Major', 2: 'Minor', 3: 'Patch' };
+const TIER_LABELS = { 1: 'Major', 2: 'Minor', 3: 'Patch', 4: 'New Product' };
 
 function pct(done, total) {
   return total ? Math.round((done / total) * 100) : 0;
@@ -16,7 +16,7 @@ export default function Home() {
   const [taskText, setTaskText] = useState('');
   const [taskOwner, setTaskOwner] = useState('');
   const [loading, setLoading] = useState(false);
-  const [tierFilter, setTierFilter] = useState('all'); // 'all' | '1' | '2' | '3'
+  const [tierFilter, setTierFilter] = useState('all'); // 'all' | '1' | '2' | '3' | '4'
 
   const visibleReleases = tierFilter === 'all'
     ? releases
@@ -164,13 +164,14 @@ export default function Home() {
             <option value="1">Tier 1 &mdash; Major</option>
             <option value="2">Tier 2 &mdash; Minor</option>
             <option value="3">Tier 3 &mdash; Patch</option>
+            <option value="4">New Product Launch</option>
           </select>
           <button type="submit">+ Add release</button>
         </form>
 
         <div className="release-list-heading">Releases</div>
         <div className="tier-filter">
-          {['all', '1', '2', '3'].map(f => (
+          {['all', '1', '2', '3', '4'].map(f => (
             <button
               key={f}
               className={'filter-pill' + (tierFilter === f ? ' active t' + f : '')}
@@ -227,6 +228,7 @@ export default function Home() {
                   <option value={1}>Tier 1 — Major</option>
                   <option value={2}>Tier 2 — Minor</option>
                   <option value={3}>Tier 3 — Patch</option>
+                  <option value={4}>New Product Launch</option>
                 </select>
                 <button className="ship-btn" onClick={markShipped}>
                   {detail.release.status === 'shipped' ? 'Reopen' : 'Mark shipped'}
